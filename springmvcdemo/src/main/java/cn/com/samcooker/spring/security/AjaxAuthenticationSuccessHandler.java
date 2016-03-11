@@ -23,8 +23,8 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
         ObjectMapper objectMapper = new ObjectMapper();
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         try {
-            // �ɹ�Ϊ0
-            objectMapper.writeValue(response.getOutputStream(), "0");
+            // 登陆成功后返回的信息
+            objectMapper.writeValue(response.getOutputStream(), "true");
         } catch (JsonProcessingException ex) {
             throw new HttpMessageNotWritableException("Could not write JSON: " + ex.getMessage(), ex);
         }

@@ -1,8 +1,0 @@
-<!DOCTYPE html>
-<html>
-<meta charset='utf-8'>
-<title>welcome</title>
-<body>
-<h2>welcome to my web site</h2>
-</body>
-</html>

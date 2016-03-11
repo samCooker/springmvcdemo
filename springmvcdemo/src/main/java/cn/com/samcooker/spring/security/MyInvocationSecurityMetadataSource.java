@@ -6,39 +6,45 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
-import cn.com.samcooker.spring.security.tools.AntUrlPathMatcher;
-import cn.com.samcooker.spring.security.tools.UrlMatcher;
+import cn.com.samcooker.spring.tools.AntUrlPathMatcher;
+import cn.com.samcooker.spring.tools.UrlMatcher;
 
 public class MyInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     private UrlMatcher                                      urlMatcher  = new AntUrlPathMatcher();
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
-    // tomcatÆô¶¯Ê±ÊµÀı»¯Ò»´Î
+    // tomcatå¯åŠ¨æ—¶å®ä¾‹åŒ–ä¸€æ¬¡
     public MyInvocationSecurityMetadataSource() {
         loadResourceDefine();
     }
 
-    // tomcat¿ªÆôÊ±¼ÓÔØÒ»´Î£¬¼ÓÔØËùÓĞurlºÍÈ¨ÏŞ£¨»ò½ÇÉ«£©µÄ¶ÔÓ¦¹ØÏµ
+    // tomcatå¼€å¯æ—¶åŠ è½½ä¸€æ¬¡ï¼ŒåŠ è½½æ‰€æœ‰urlå’Œæƒé™ï¼ˆæˆ–è§’è‰²ï¼‰çš„å¯¹åº”å…³ç³»
     private void loadResourceDefine() {
         resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
-        Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
-        ConfigAttribute ca = new SecurityConfig("ROLE_USER");
-        atts.add(ca);
-        resourceMap.put("/welcome.html", atts);
-        Collection<ConfigAttribute> attsno = new ArrayList<ConfigAttribute>();
-        ConfigAttribute cano = new SecurityConfig("ROLE_NO");
-        attsno.add(cano);
-        resourceMap.put("/other.jsp", attsno);
+        Collection<ConfigAttribute> adminCas = new ArrayList<ConfigAttribute>();
+        Collection<ConfigAttribute> otherCas = new ArrayList<ConfigAttribute>();
+        ConfigAttribute admin = new SecurityConfig("ROLE_ADMIN");
+        ConfigAttribute other = new SecurityConfig("ROLE_OTHER");
+        adminCas.add(admin);
+
+        otherCas.add(admin);
+        otherCas.add(other);
+        resourceMap.put("/home.json", otherCas);
+        resourceMap.put("/plugin/*.json", otherCas);
+        resourceMap.put("/other/*.json", otherCas);
+        resourceMap.put("/oa/*.json", adminCas);
+        resourceMap.put("/user/*.json", adminCas);
     }
 
-    // ²ÎÊıÊÇÒª·ÃÎÊµÄurl£¬·µ»ØÕâ¸öurl¶ÔÓÚµÄËùÓĞÈ¨ÏŞ£¨»ò½ÇÉ«£©
+    // å‚æ•°æ˜¯è¦è®¿é—®çš„urlï¼Œè¿”å›è¿™ä¸ªurlå¯¹äºçš„æ‰€æœ‰æƒé™ï¼ˆæˆ–è§’è‰²ï¼‰
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        // ½«²ÎÊı×ªÎªurl
+        // å°†å‚æ•°è½¬ä¸ºurl
         String url = ((FilterInvocation) object).getRequestUrl();
         Iterator<String> ite = resourceMap.keySet().iterator();
         while (ite.hasNext()) {
@@ -47,7 +53,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
                 return resourceMap.get(resURL);
             }
         }
-        return null;
+        throw new AccessDeniedException("forbidden");
     }
 
     public boolean supports(Class<?> clazz) {

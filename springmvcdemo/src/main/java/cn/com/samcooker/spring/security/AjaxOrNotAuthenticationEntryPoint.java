@@ -14,6 +14,12 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Âà§Êñ≠ÊòØÂê¶ÊòØajaxËØ∑Ê±Ç
+ * 
+ * @author Cookie
+ *
+ */
 @SuppressWarnings("deprecation")
 public class AjaxOrNotAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
 
@@ -25,7 +31,6 @@ public class AjaxOrNotAuthenticationEntryPoint extends LoginUrlAuthenticationEnt
 
         String url = request.getRequestURI();
 
-        // ∑«ajax«Î«Û
         if (url.indexOf("ajax") == -1) {
 
             if (this.isUseForward()) {

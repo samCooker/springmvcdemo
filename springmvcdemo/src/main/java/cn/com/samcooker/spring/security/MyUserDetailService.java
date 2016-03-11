@@ -2,10 +2,11 @@ package cn.com.samcooker.spring.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,24 +14,31 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class MyUserDetailService implements UserDetailsService {
 
-    // µÇÂ½ÑéÖ¤Ê±£¬Í¨¹ıusername»ñÈ¡ÓÃ»§µÄËùÓĞÈ¨ÏŞĞÅÏ¢£¬
-    // ²¢·µ»ØUser·Åµ½springµÄÈ«¾Ö»º´æSecurityContextHolderÖĞ£¬ÒÔ¹©ÊÚÈ¨Æ÷Ê¹ÓÃ
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
-        Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
+    private String admin = "cookie";
 
-        GrantedAuthorityImpl auth2 = new GrantedAuthorityImpl("ROLE_ADMIN");
-        GrantedAuthorityImpl auth1 = new GrantedAuthorityImpl("ROLE_USER");
-
-        if (username.equals("sam")) {
-            auths = new ArrayList<GrantedAuthority>();
-            auths.add(auth1);
-            auths.add(auth2);
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
+        // å¯ä»æ•°æ®åº“è·å–ç”¨æˆ·ä¿¡æ¯åŠå¯¹åº”çš„è§’è‰²
+        // è¿™é‡Œç›´æ¥æ¨¡æ‹Ÿä»æ•°æ®åº“è·å–æ•°æ®
+        if (userName != null && userName.matches("[A-Za-z]+")) {
+            Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
+            List<String> rolesList = this.getRoles(userName);
+            GrantedAuthority ga = null;
+            for (String role : rolesList) {
+                ga = new SimpleGrantedAuthority(role);
+                auths.add(ga);
+            }
+            User user = new User(userName, "c4ca4238a0b923820dcc509a6f75849b", true, true, true, true, auths);
+            return user;
         }
-        if (username.equals("kimi")) {
-            throw new UsernameNotFoundException("Ã»ÓĞÓÃ»§[" + username + "]µÄÊı¾İ£¡");
-        }
+        throw new UsernameNotFoundException("user not found");
+    }
 
-        User user = new User(username, "c4ca4238a0b923820dcc509a6f75849b", true, true, true, true, auths);
-        return user;
+    private List<String> getRoles(String userName) {
+        List<String> roles = new ArrayList<>();
+        if (admin.equals(userName)) {
+            roles.add("ROLE_ADMIN");
+        }
+        roles.add("ROLE_OTHER");
+        return roles;
     }
 }

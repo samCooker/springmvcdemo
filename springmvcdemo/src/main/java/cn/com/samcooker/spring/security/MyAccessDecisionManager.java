@@ -13,10 +13,10 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
 
-    // ¼ì²éÓÃ»§ÊÇ·ñ¹»È¨ÏŞ·ÃÎÊ×ÊÔ´
-    // ²ÎÊıauthenticationÊÇ´ÓspringµÄÈ«¾Ö»º´æSecurityContextHolderÖĞÄÃµ½µÄ£¬ÀïÃæÊÇÓÃ»§µÄÈ¨ÏŞĞÅÏ¢
-    // ²ÎÊıobjectÊÇurl
-    // ²ÎÊıconfigAttributesËùĞèµÄÈ¨ÏŞ
+    // æ£€æŸ¥ç”¨æˆ·æ˜¯å¦å¤Ÿæƒé™è®¿é—®èµ„æº
+    // å‚æ•°authenticationæ˜¯ä»springçš„å…¨å±€ç¼“å­˜SecurityContextHolderä¸­æ‹¿åˆ°çš„ï¼Œé‡Œé¢æ˜¯ç”¨æˆ·çš„æƒé™ä¿¡æ¯
+    // å‚æ•°objectæ˜¯url
+    // å‚æ•°configAttributesæ‰€éœ€çš„æƒé™
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
         if (configAttributes == null) {
             return;
@@ -33,7 +33,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
                 }
             }
         }
-        // ×¢Òâ£ºÖ´ĞĞÕâÀï£¬ºóÌ¨ÊÇ»áÅ×Òì³£µÄ£¬µ«ÊÇ½çÃæ»áÌø×ªµ½ËùÅäµÄaccess-denied-pageÒ³Ãæ
+        // æ³¨æ„ï¼šæ‰§è¡Œè¿™é‡Œï¼Œåå°æ˜¯ä¼šæŠ›å¼‚å¸¸çš„ï¼Œä½†æ˜¯ç•Œé¢ä¼šè·³è½¬åˆ°æ‰€é…çš„access-denied-pageé¡µé¢
         throw new AccessDeniedException("no right");
     }
 

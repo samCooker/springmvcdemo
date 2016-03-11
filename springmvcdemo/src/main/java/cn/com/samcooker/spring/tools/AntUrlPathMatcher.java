@@ -1,4 +1,4 @@
-package cn.com.samcooker.spring.security.tools;
+package cn.com.samcooker.spring.tools;
 
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
