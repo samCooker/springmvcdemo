@@ -38,7 +38,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
         resourceMap.put("/home.json", otherCas);
         resourceMap.put("/plugin/*.json", otherCas);
         resourceMap.put("/other/*.json", otherCas);
-        resourceMap.put("/oa/*.json", adminCas);
+        resourceMap.put("/**", adminCas);
         resourceMap.put("/user/*.json", adminCas);
     }
 

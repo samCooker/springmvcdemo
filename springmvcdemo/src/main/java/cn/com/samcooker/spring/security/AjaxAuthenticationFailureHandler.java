@@ -22,7 +22,7 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
         ObjectMapper objectMapper = new ObjectMapper();
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         try {
-            objectMapper.writeValue(response.getOutputStream(), exception.getLocalizedMessage());
+            objectMapper.writeValue(response.getOutputStream(), "用户名或密码错误");
         } catch (JsonProcessingException ex) {
             throw new HttpMessageNotWritableException("Could not write JSON: " + ex.getMessage(), ex);
         }

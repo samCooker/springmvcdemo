@@ -28,16 +28,21 @@
 	<mvc:resources location="/static/" mapping="/static/**" />
 	<!-- end -->
 	<!-- 使用注解自动注册bean，在该文件中只扫描@Controller -->
-	<con:component-scan base-package="com.cooker.**.controllers" />
+	<con:component-scan base-package="cn.com.samcooker.**.controllers" >
+		<con:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</con:component-scan>
+	
+	<!-- 使用注解自动注册bean，在该文件中不扫描@Controller -->
+	<con:component-scan base-package="cn.com.samcooker.**.service">
+		<con:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</con:component-scan>
+	<!-- 使用注解控制事务 -->
+	
+	<!-- 自定义异常捕获 -->
+<!-- 	<bean class="cn.com.samcooker.spring.exception.CustomHandlerExceptionResolver" /> -->
 	
 	<!-- 文件解析器 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="5242880" /><!-- 5MB -->
 	</bean>
-<!-- 	<mvc:interceptors> -->
-<!-- 		<mvc:interceptor> -->
-<!-- 			<mvc:mapping path="/**"/> -->
-<!-- 			<bean class="com.crazy.common.form.SysLogHandlerInterceptor"/> -->
-<!-- 		</mvc:interceptor> -->
-<!-- 	</mvc:interceptors> -->
 </beans>

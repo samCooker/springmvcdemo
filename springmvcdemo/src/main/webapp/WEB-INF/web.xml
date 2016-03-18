@@ -66,16 +66,19 @@
   </filter-mapping>
   
   <!-- servlet -->
-    <servlet-name>mainentry</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>
-            classpath:/spring/dispatcher-servlet.xml
-      </param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
+<servlet-name>mainentry</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/dispatcher-servlet.xml</param-value>
+		 </init-param>
+		 <init-param>
+		     <param-name>throwExceptionIfNoHandlerFound</param-name>
+		     <param-value>true</param-value>
+		 </init-param>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+  
   <servlet-mapping>
     <servlet-name>mainentry</servlet-name>
     <url-pattern>/</url-pattern>
@@ -88,14 +91,25 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-	<!-- 404错误拦截 -->
+	
+<!-- 404错误拦截 -->
   <error-page>
     <error-code>404</error-code>
     <location>/errorpage/error404.html</location>
+  </error-page>
+  <!-- 400错误拦截 -->
+  <error-page>
+    <error-code>400</error-code>
+    <location>/errorpage/error400.html</location>
   </error-page>
   <!-- 500错误拦截 -->
   <error-page>
     <error-code>500</error-code>
     <location>/errorpage/error500.html</location>
   </error-page>
+  <!-- 未捕获的错误，同样可指定其它异常类，或自定义异常类 -->
+	<error-page>
+	    <exception-type>java.lang.Exception</exception-type>
+	    <location>/errorpage/error.html</location>
+	</error-page>
 </web-app>
