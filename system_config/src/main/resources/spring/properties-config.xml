@@ -20,7 +20,8 @@
         <!-- 排在最后的文件的内容最先搜索，即靠后的属性文件里的属性覆盖靠前的属性文件里的同名属性。 -->
         <property name="locations">
             <list>
-                <value>./**/*.properties</value>
+                <value>classpath*:/spring/datasource/jdbc.properties</value>
+                <value>classpath*:/spring/global-setting.properties</value>
             </list>
         </property>
     </bean>
