@@ -1,22 +1,32 @@
 package cn.com.cookie.common.controllers;
 
+import cn.com.cookie.common.bean.RegisteData;
+import cn.com.cookie.common.service.AppUserEntityService;
+import cn.com.cookie.spring.bean.LoginUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.com.cookie.spring.bean.LoginUser;
+import java.util.List;
 
 @Controller
-@RequestMapping("common/user")
+@RequestMapping("sys")
 public class UserController {
 
-    @RequestMapping(value = "list.json")
+    @Autowired
+    AppUserEntityService appUserEntityService;
+
+    /**
+     * 注册用户
+     * @return
+     */
+    @RequestMapping(value = "user/add.action")
     @ResponseBody
-    public LoginUser getUserList(@RequestBody LoginUser data) {
-        System.out.println("list");
-        // throw new NoHandlerFoundException("not found", null, null);
-        throw new NullPointerException();
+    public boolean getUserList(@RequestBody RegisteData registeData) {
+
+        return appUserEntityService.registeUser(registeData);
     }
 
 }

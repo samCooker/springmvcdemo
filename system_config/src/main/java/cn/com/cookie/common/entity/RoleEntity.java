@@ -1,5 +1,7 @@
 package cn.com.cookie.common.entity;
 
+import cn.com.cookie.common.jpa.IdEntity;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -9,38 +11,29 @@ import java.util.List;
  */
 @Entity
 @Table(name = "role", schema = "demo_angular_spring")
-public class RoleEntity {
-    private Integer id;
+public class RoleEntity  extends IdEntity<Long> {
+    @Column(name = "role_name", nullable = false, length = 45)
     private String roleName;
+    @Column(name = "role_code", nullable = true, length = 45)
+    private String roleCode;
+    @Column(name = "role_desc", nullable = true, length = 250)
     private String roleDesc;
+    @Column(name = "valid", nullable = true, length = 1)
     private String valid;
+    @Column(name = "creator", nullable = true, length = 45)
     private String creator;
+    @Column(name = "create_date", nullable = true)
     private Timestamp createDate;
-
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "roleList")
     private List<AppUserEntity> userList;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "role_resource", joinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "resource_id", nullable = false, updatable = false) })
     private List<ResourceEntity> resourceList;
 
-    /**
-     * @return the id
-     */
-    @Id
-    @Column(name = "id", nullable = false)
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * @return the roleName
      */
-    @Basic
-    @Column(name = "role_name", nullable = false, length = 45)
     public String getRoleName() {
         return roleName;
     }
@@ -55,8 +48,6 @@ public class RoleEntity {
     /**
      * @return the roleDesc
      */
-    @Basic
-    @Column(name = "role_desc", nullable = true, length = 250)
     public String getRoleDesc() {
         return roleDesc;
     }
@@ -71,8 +62,6 @@ public class RoleEntity {
     /**
      * @return the valid
      */
-    @Basic
-    @Column(name = "valid", nullable = true, length = 1)
     public String getValid() {
         return valid;
     }
@@ -87,8 +76,6 @@ public class RoleEntity {
     /**
      * @return the creator
      */
-    @Basic
-    @Column(name = "creator", nullable = true, length = 45)
     public String getCreator() {
         return creator;
     }
@@ -103,8 +90,6 @@ public class RoleEntity {
     /**
      * @return the createDate
      */
-    @Basic
-    @Column(name = "create_date", nullable = true)
     public Timestamp getCreateDate() {
         return createDate;
     }
@@ -119,7 +104,6 @@ public class RoleEntity {
     /**
      * @return the userList
      */
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "roleList")
     public List<AppUserEntity> getUserList() {
         return userList;
     }
@@ -134,8 +118,6 @@ public class RoleEntity {
     /**
      * @return the resourceList
      */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "role_resource", joinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "resource_id", nullable = false, updatable = false) })
     public List<ResourceEntity> getResourceList() {
         return resourceList;
     }
@@ -145,5 +127,19 @@ public class RoleEntity {
      */
     public void setResourceList(List<ResourceEntity> resourceList) {
         this.resourceList = resourceList;
+    }
+
+    /**
+     * @return the roleCode
+     */
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    /**
+     * @param roleCode the roleCode to set
+     */
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
     }
 }

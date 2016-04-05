@@ -1,5 +1,7 @@
 package cn.com.cookie.common.entity;
 
+import cn.com.cookie.common.jpa.IdEntity;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -10,41 +12,31 @@ import java.util.List;
  */
 @Entity
 @Table(name = "resource", schema = "demo_angular_spring")
-public class ResourceEntity {
-    private Integer id;
+public class ResourceEntity extends IdEntity<Long> {
+    @Column(name = "res_name", nullable = true, length = 100)
     private String resName;
+    @Column(name = "res_desc", nullable = true, length = 250)
     private String resDesc;
+    @Column(name = "res_type", nullable = true, length = 45)
     private String resType;
+    @Column(name = "res_url", nullable = false, length = 150)
     private String resUrl;
+    @Column(name = "authority_name", nullable = false, length = 100)
     private String authorityName;
+    @Column(name = "valid", nullable = true, length = 1)
     private String valid;
+    @Column(name = "parent_id", nullable = true)
     private Integer parentId;
+    @Column(name = "creator", nullable = true, length = 45)
     private String creator;
+    @Column(name = "create_date", nullable = true)
     private Date createDate;
-
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "resourceList")
     private List<RoleEntity> roleList;
-
-    /**
-     * @return the id
-     */
-    @Id
-    @Column(name = "id", nullable = false)
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * @return the resName
      */
-    @Basic
-    @Column(name = "res_name", nullable = true, length = 100)
     public String getResName() {
         return resName;
     }
@@ -59,8 +51,6 @@ public class ResourceEntity {
     /**
      * @return the resDesc
      */
-    @Basic
-    @Column(name = "res_desc", nullable = true, length = 250)
     public String getResDesc() {
         return resDesc;
     }
@@ -75,8 +65,6 @@ public class ResourceEntity {
     /**
      * @return the resType
      */
-    @Basic
-    @Column(name = "res_type", nullable = true, length = 45)
     public String getResType() {
         return resType;
     }
@@ -91,8 +79,6 @@ public class ResourceEntity {
     /**
      * @return the resUrl
      */
-    @Basic
-    @Column(name = "res_url", nullable = false, length = 150)
     public String getResUrl() {
         return resUrl;
     }
@@ -107,8 +93,6 @@ public class ResourceEntity {
     /**
      * @return the authorityName
      */
-    @Basic
-    @Column(name = "authority_name", nullable = false, length = 100)
     public String getAuthorityName() {
         return authorityName;
     }
@@ -123,8 +107,6 @@ public class ResourceEntity {
     /**
      * @return the valid
      */
-    @Basic
-    @Column(name = "valid", nullable = true, length = 1)
     public String getValid() {
         return valid;
     }
@@ -139,8 +121,6 @@ public class ResourceEntity {
     /**
      * @return the parentId
      */
-    @Basic
-    @Column(name = "parent_id", nullable = true)
     public Integer getParentId() {
         return parentId;
     }
@@ -155,8 +135,6 @@ public class ResourceEntity {
     /**
      * @return the creator
      */
-    @Basic
-    @Column(name = "creator", nullable = true, length = 45)
     public String getCreator() {
         return creator;
     }
@@ -171,8 +149,6 @@ public class ResourceEntity {
     /**
      * @return the createDate
      */
-    @Basic
-    @Column(name = "create_date", nullable = true)
     public Date getCreateDate() {
         return createDate;
     }
@@ -187,7 +163,6 @@ public class ResourceEntity {
     /**
      * @return the roleList
      */
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "resourceList")
     public List<RoleEntity> getRoleList() {
         return roleList;
     }

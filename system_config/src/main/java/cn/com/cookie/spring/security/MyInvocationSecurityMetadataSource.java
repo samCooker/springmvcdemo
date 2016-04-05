@@ -19,28 +19,26 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import cn.com.cookie.spring.tools.AntUrlPathMatcher;
 import cn.com.cookie.spring.tools.UrlMatcher;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 public class MyInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     private UrlMatcher                                      urlMatcher  = new AntUrlPathMatcher();
+    //权限列表
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
     @Autowired
     private ResourceEntityRepository resourceEntityRepository;
+    //是否启动权限控制
     @Value("${spring.security.enabled}")
-    private String  securityEnable;
-
-    /**
-     * tomcat启动时实例化一次
-     */
-    public MyInvocationSecurityMetadataSource() {
-    }
+    private Boolean  securityEnable;
 
     /**
      * 初始化所有url和权限（或角色）的对应关系
      */
+    @PostConstruct
     private void initResource() {
-        if (resourceMap==null) {
+        if (resourceMap==null&&securityEnable) {
             resourceMap = new HashMap<>();
             List<ResourceEntity> resourceEntityList = resourceEntityRepository.findByValid(AppValid.有效.getKey());
             ConfigAttribute ca = null;
@@ -63,8 +61,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
      * @throws IllegalArgumentException
      */
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        if ("true".equals(securityEnable)) {
-            this.initResource();
+        if (securityEnable) {
             // 将参数转为url
             String url = ((FilterInvocation) object).getRequestUrl();
             Iterator<String> ite = resourceMap.keySet().iterator();
@@ -84,8 +81,21 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
     }
 
     public Collection<ConfigAttribute> getAllConfigAttributes() {
+        //已将所有资源放入resourceMap中，这里就返回null
         return null;
     }
 
+    /**
+     * @return the resourceMap
+     */
+    public static Map<String, Collection<ConfigAttribute>> getResourceMap() {
+        return resourceMap;
+    }
 
+    /**
+     * @param resourceMap the resourceMap to set
+     */
+    public static void setResourceMap(Map<String, Collection<ConfigAttribute>> resourceMap) {
+        MyInvocationSecurityMetadataSource.resourceMap = resourceMap;
+    }
 }

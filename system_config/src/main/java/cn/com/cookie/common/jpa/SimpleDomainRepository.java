@@ -1,4 +1,4 @@
-package cn.com.cookie.common.repository;
+package cn.com.cookie.common.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

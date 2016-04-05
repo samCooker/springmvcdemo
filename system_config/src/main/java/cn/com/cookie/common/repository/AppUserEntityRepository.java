@@ -8,11 +8,18 @@
 package cn.com.cookie.common.repository;
 
 import cn.com.cookie.common.entity.AppUserEntity;
+import cn.com.cookie.common.jpa.SimpleDomainRepository;
 
 /**
  * @author Cookie
  */
 public interface AppUserEntityRepository extends SimpleDomainRepository<AppUserEntity, Long> {
 
-    AppUserEntity findByAccount(String account);
+    /**
+     * 根据账号查询用户对象
+     * @param account
+     * @param validable AppValid字典中定义
+     * @return
+     */
+    AppUserEntity findByAccountAndValid(String account, String validable);
 }

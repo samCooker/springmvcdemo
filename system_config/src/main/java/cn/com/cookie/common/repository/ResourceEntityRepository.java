@@ -9,6 +9,7 @@
 package cn.com.cookie.common.repository;
 
 import cn.com.cookie.common.entity.ResourceEntity;
+import cn.com.cookie.common.jpa.SimpleDomainRepository;
 
 import java.util.List;
 

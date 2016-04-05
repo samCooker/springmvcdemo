@@ -25,12 +25,16 @@
     <listener>
         <description>在Web应用程序关闭时IntrospectorCleanupListener将会刷新JDK的JavaBeans的Introspector缓存。
             在你的web.xml中注册这个listener来确保Web应用程序的类加载器以及其加载的类正确的释放资源。IntrospectorCleanupListener应该注册为web.xml中的第一个Listener，
-            在任何其他Listener之前注册，比如在Spring's ContextLoaderListener注册之前，才能确保IntrospectorCleanupListener在Web应用的生命周期适当时机生效。</description>
+            在任何其他Listener之前注册，比如在Spring's ContextLoaderListener注册之前，才能确保IntrospectorCleanupListener在Web应用的生命周期适当时机生效。
+        </description>
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
     </listener>
     <listener>
         <description>spring 配置文件加载监听器。</description>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
     <servlet>
         <!-- 设置编码 -->
@@ -54,38 +58,28 @@
         </filter-mapping>
         <!-- end -->
 
-        <filter>
-            <description>开启open entity manager in view模式</description>
-            <filter-name>OpenEntityManagerInViewFilter</filter-name>
-            <filter-class>cn.com.cookie.common.filter.MyOpenEntityManagerInViewFilter</filter-class>
-        </filter>
-        <filter-mapping>
-            <filter-name>OpenEntityManagerInViewFilter</filter-name>
-            <url-pattern>/*</url-pattern>
-        </filter-mapping>
-
         <!-- servlet -->
         <servlet-name>mainentry</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/dispatcher-servlet.xml</param-value>
-        </init-param>
-        <init-param>
-            <param-name>throwExceptionIfNoHandlerFound</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+            <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+            <init-param>
+                <param-name>contextConfigLocation</param-name>
+                <param-value>classpath:spring/dispatcher-servlet.xml</param-value>
+            </init-param>
+            <init-param>
+                <param-name>throwExceptionIfNoHandlerFound</param-name>
+                <param-value>true</param-value>
+            </init-param>
+            <load-on-startup>1</load-on-startup>
+        </servlet>
 
     <servlet-mapping>
         <servlet-name>mainentry</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     <!-- 会话超时设置 -->
-    <session-config>
-        <session-timeout>30</session-timeout>
-    </session-config>
+    <!--<session-config>-->
+    <!--<session-timeout>30</session-timeout>-->
+    <!--</session-config>-->
     <!--系统欢迎页面 -->
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

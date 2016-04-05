@@ -1,5 +1,6 @@
 package cn.com.cookie.common.entity;
 
+import cn.com.cookie.common.jpa.IdEntity;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -11,38 +12,28 @@ import java.util.List;
  */
 @Entity
 @Table(name = "app_user", schema = "demo_angular_spring")
-public class AppUserEntity {
-    private Integer id;
+public class AppUserEntity extends IdEntity<Long>{
+    @Column(name = "account", nullable = false, length = 45)
     private String account;
+    @Column(name = "password", nullable = false,length=60)
+    private String password;
+    @Column(name = "user_name", nullable = true, length = 45)
     private String userName;
+    @Column(name = "valid", nullable = true, length = 1)
     private String valid;
+    @Column(name = "registe_date", nullable = true)
     private Date registeDate;
+    @Column(name = "last_login_date", nullable = true)
     private Date lastLoginDate;
-
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
     private List<RoleEntity> roleList;
+    @Transient
     private List<GrantedAuthority> authorities;
-
-    /**
-     * @return the id
-     */
-    @Id
-    @Column(name = "id", nullable = false)
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * @return the account
      */
-    @Basic
-    @Column(name = "account", nullable = false, length = 45)
     public String getAccount() {
         return account;
     }
@@ -57,8 +48,6 @@ public class AppUserEntity {
     /**
      * @return the userName
      */
-    @Basic
-    @Column(name = "user_name", nullable = true, length = 45)
     public String getUserName() {
         return userName;
     }
@@ -73,8 +62,6 @@ public class AppUserEntity {
     /**
      * @return the valid
      */
-    @Basic
-    @Column(name = "valid", nullable = true, length = 1)
     public String getValid() {
         return valid;
     }
@@ -89,8 +76,6 @@ public class AppUserEntity {
     /**
      * @return the registeDate
      */
-    @Basic
-    @Column(name = "registe_date", nullable = true)
     public Date getRegisteDate() {
         return registeDate;
     }
@@ -105,8 +90,6 @@ public class AppUserEntity {
     /**
      * @return the lastLoginDate
      */
-    @Basic
-    @Column(name = "last_login_date", nullable = true)
     public Date getLastLoginDate() {
         return lastLoginDate;
     }
@@ -121,7 +104,6 @@ public class AppUserEntity {
     /**
      * @return the authorities
      */
-    @Transient
     public List<GrantedAuthority> getAuthorities() {
         return authorities;
     }
@@ -136,8 +118,7 @@ public class AppUserEntity {
     /**
      * @return the roleList
      */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
+
     public List<RoleEntity> getRoleList() {
         return roleList;
     }
@@ -147,5 +128,19 @@ public class AppUserEntity {
      */
     public void setRoleList(List<RoleEntity> roleList) {
         this.roleList = roleList;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
