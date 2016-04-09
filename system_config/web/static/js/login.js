@@ -20,7 +20,7 @@ app.controller('loginController',function($scope,$http,$httpParamSerializer){
 	};
 
 	$scope.logout= function () {
-		$http.get('./logout.json').success(function (data) {
+		$http.post('./sys/user/add.json',{id:1,password:'1'}).success(function (data) {
 			console.log(data);
 		});
 	}

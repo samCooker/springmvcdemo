@@ -21,7 +21,7 @@
         <property name="locations">
             <list>
                 <value>classpath*:/spring/datasource/jdbc.properties</value>
-                <value>classpath*:/spring/global-setting.properties</value>
+                <value>classpath*:/spring/setting-*.properties</value>
             </list>
         </property>
     </bean>

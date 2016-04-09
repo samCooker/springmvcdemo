@@ -1,13 +1,9 @@
 package cn.com.cookie.common.service;
 
-import cn.com.cookie.common.bean.RegisteData;
-import cn.com.cookie.common.bean.UserInfo;
+import cn.com.cookie.common.bean.DataRegiste;
+import cn.com.cookie.common.bean.InfoUser;
 import cn.com.cookie.common.entity.AppUserEntity;
 import cn.com.cookie.common.jpa.CrudRestService;
-import cn.com.cookie.common.reference.AppValid;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.List;
 
 /**
  * @author Cookie
@@ -35,12 +31,12 @@ public interface AppUserEntityService extends CrudRestService<AppUserEntity,Long
      * @param userId
      * @return
      */
-    UserInfo findUserInfo(Long userId);
+    InfoUser findUserInfo(Long userId);
 
     /**
      * 注册用户
-     * @param registeData
+     * @param dataRegiste
      * @return
      */
-    boolean registeUser(RegisteData registeData);
+    String registeUser(DataRegiste dataRegiste);
 }

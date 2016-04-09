@@ -2,16 +2,16 @@ package cn.com.cookie.common.bean;
 
 import cn.com.cookie.common.utils.JsonMapper;
 
-public class ErrorInfo {
+public class InfoException {
 
     private String errorUrl;
     private String errorMsg;
 
-    public ErrorInfo() {
+    public InfoException() {
         super();
     }
 
-    public ErrorInfo(String errorUrl, String errorMsg) {
+    public InfoException(String errorUrl, String errorMsg) {
         super();
         this.errorUrl = errorUrl;
         this.errorMsg = errorMsg;

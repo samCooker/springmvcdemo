@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import cn.com.cookie.common.bean.ErrorInfo;
+import cn.com.cookie.common.bean.InfoException;
 
 /**
  * 捕获控制器抛出的异常
@@ -28,7 +28,7 @@ public class ExceptionController {
 
         String errorURL = req.getRequestURL().toString();
 
-        ErrorInfo errorInfo = new ErrorInfo(errorURL, errorMessage);
+        InfoException errorInfo = new InfoException(errorURL, errorMessage);
         return new ResponseEntity<String>(errorInfo.toJson(), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
@@ -40,7 +40,7 @@ public class ExceptionController {
 
         String errorURL = req.getRequestURL().toString();
 
-        ErrorInfo errorInfo = new ErrorInfo(errorURL, errorMessage);
+        InfoException errorInfo = new InfoException(errorURL, errorMessage);
         return new ResponseEntity<String>(errorInfo.toJson(), HttpStatus.BAD_REQUEST);
     }
 
@@ -51,7 +51,7 @@ public class ExceptionController {
 
         String errorURL = req.getRequestURL().toString();
 
-        ErrorInfo errorInfo = new ErrorInfo(errorURL, errorMessage);
+        InfoException errorInfo = new InfoException(errorURL, errorMessage);
         return new ResponseEntity<String>(errorInfo.toJson(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

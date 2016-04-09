@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Cookie on 2016/3/26.
  *      返回给页面的用户信息
  */
-public class UserInfo {
+public class InfoUser {
 
     private Long id;
     /** 登陆用户名 */

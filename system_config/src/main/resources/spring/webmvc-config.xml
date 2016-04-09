@@ -17,10 +17,9 @@
 	<!-- 开启spring mvc注解 -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<constructor-arg value="utf-8" />
+			<bean class="cn.com.cookie.spring.tools.UTF8StringHttpMessageConverter">
 			</bean>
-			<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter" />
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 		</mvc:message-converters>
 		<!-- 启用@AuthenticationPrincipal注解 -->
 		<mvc:argument-resolvers>
